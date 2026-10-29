@@ -8,7 +8,7 @@ restconf
 ip http server
 ip http authentication local
 ip http secure-server
-ip http client source-interface git4
+ip http client source-interface gi4
 username cisco privilege 15 password cisco123
 end
 wr
