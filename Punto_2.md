@@ -20,7 +20,7 @@ ip address dhcp
 no shutdown
 end
 conf t
-ip route 0.0.0.0 0.0.0.0 <DHCP-GW> #192.168.42.27
+ip route 0.0.0.0 0.0.0.0 <DHCP-GW> ->192.168.42.27
 end
 wr
 ```
@@ -36,7 +36,7 @@ exit
 same-security-traffic permit inter-interface
 end
 conf t
-route MGMT 0 0 <DHCP-GW> #192.168.42.27
+route MGMT 0 0 <DHCP-GW> -> 192.168.42.27
 end
 wr
 ```
@@ -51,7 +51,7 @@ iface eth0 inet static
 	gateway 2.2.2.1
 ```
 
-### WordPress (archivo interfaces)
+### WordPress
 ```
 auto eth0
 iface eth0 inet static
