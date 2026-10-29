@@ -6,17 +6,7 @@ ip address 1.1.1.2 255.255.255.0
 no shutdown
 end
 wr
-```
-
-Documentación:
-```
-show ip interface brief
-show ip route
-```
-
 ## CSR1000v
-
-```
 conf t
 interface GigabitEthernet2
 ip address 1.1.1.1 255.255.255.0
@@ -26,10 +16,8 @@ interface GigabitEthernet4
 ip address dhcp
 no shutdown
 end
-```
 
 Ruta por defecto (con el gateway obtenido por DHCP):
-```
 conf t
 ip route 0.0.0.0 0.0.0.0 <DHCP-GW>
 end
