@@ -23,9 +23,7 @@ end
 wr
 ```
 
-## CSR1000v (cliente NTP y solicitante del certificado)
-
-### NTP
+## CSR1000v
 
 ```
 conf t
