@@ -1,5 +1,3 @@
-```markdown
-
 ## Equipos Red
 ### R1
 ```
