@@ -61,3 +61,15 @@ ip authentication key-chain eigrp 1 EIGRP-KEYS
 end
 wr
 ```
+#ASDM OSPF
+```
+router ospf 1
+ log-adj-changes
+ area 0
+ area 0 authentication message-digest
+ network 10.10.20.0 255.255.255.0 area 0
+interface GigabitEthernet0/1
+ ospf authentication message-digest
+ ospf cost 10
+ ospf message-digest-key 1 md5 CISCO-O
+```
