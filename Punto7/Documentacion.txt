@@ -1,0 +1,688 @@
+login as: cisco
+cisco@192.168.42.126's password:
+Type help or '?' for a list of available commands.
+ciscoasa> en
+Password:
+ciscoasa# show runn nat
+nat (MGMT,OUTSIDE) source dynamic any interface destination static interface OBJ-CSR-GI1 service OBJ-TCP-1010 OBJ-TCP-22
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1020 OBJ-TCP-22
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1030 OBJ-TCP-443
+!
+object network OBJ-PAT-INSIDE
+ nat (INSIDE,MGMT) dynamic interface
+object network OBJ-PAT-DMZ
+ nat (DMZ,MGMT) dynamic interface
+ciscoasa# packet-tracer input INSIDE tcp 2.2.2.2 12345 132.248.59.187 443
+
+Phase: 1
+Type: ROUTE-LOOKUP
+Subtype: Resolve Egress Interface
+Result: ALLOW
+Config:
+Additional Information:
+found next-hop 192.168.42.1 using egress ifc  MGMT
+
+Phase: 2
+Type: ACCESS-LIST
+Subtype: log
+Result: ALLOW
+Config:
+access-group INSIDE_access_in in interface INSIDE
+access-list INSIDE_access_in extended permit ip host 2.2.2.2 any
+Additional Information:
+
+Phase: 3
+Type: NAT
+Subtype:
+Result: ALLOW
+Config:
+object network OBJ-PAT-INSIDE
+ nat (INSIDE,MGMT) dynamic interface
+Additional Information:
+Dynamic translate 2.2.2.2/12345 to 192.168.42.126/12345
+
+Phase: 4
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 5
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 6
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 7
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 8
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 9
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 10
+Type: FLOW-CREATION
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+New flow created with id 642, packet dispatched to next module
+
+Result:
+input-interface: INSIDE
+input-status: up
+input-line-status: up
+output-interface: MGMT
+output-status: up
+output-line-status: up
+Action: allow
+
+ciscoasa#
+ciscoasa# packet-tracer input INSIDE tcp 2.2.2.2 12345 132.248.59.187 80
+
+Phase: 1
+Type: ROUTE-LOOKUP
+Subtype: Resolve Egress Interface
+Result: ALLOW
+Config:
+Additional Information:
+found next-hop 192.168.42.1 using egress ifc  MGMT
+
+Phase: 2
+Type: ACCESS-LIST
+Subtype: log
+Result: ALLOW
+Config:
+access-group INSIDE_access_in in interface INSIDE
+access-list INSIDE_access_in extended permit ip host 2.2.2.2 any
+Additional Information:
+
+Phase: 3
+Type: NAT
+Subtype:
+Result: ALLOW
+Config:
+object network OBJ-PAT-INSIDE
+ nat (INSIDE,MGMT) dynamic interface
+Additional Information:
+Dynamic translate 2.2.2.2/12345 to 192.168.42.126/12345
+
+Phase: 4
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 5
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 6
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 7
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 8
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 9
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 10
+Type: FLOW-CREATION
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+New flow created with id 643, packet dispatched to next module
+
+Result:
+input-interface: INSIDE
+input-status: up
+input-line-status: up
+output-interface: MGMT
+output-status: up
+output-line-status: up
+Action: allow
+
+ciscoasa#
+ciscoasa# packet-tracer input INSIDE udp 2.2.2.2 12345 8.8.8.8 53
+
+Phase: 1
+Type: ROUTE-LOOKUP
+Subtype: Resolve Egress Interface
+Result: ALLOW
+Config:
+Additional Information:
+found next-hop 192.168.42.1 using egress ifc  MGMT
+
+Phase: 2
+Type: ACCESS-LIST
+Subtype: log
+Result: ALLOW
+Config:
+access-group INSIDE_access_in in interface INSIDE
+access-list INSIDE_access_in extended permit ip host 2.2.2.2 any
+Additional Information:
+
+Phase: 3
+Type: NAT
+Subtype:
+Result: ALLOW
+Config:
+object network OBJ-PAT-INSIDE
+ nat (INSIDE,MGMT) dynamic interface
+Additional Information:
+Dynamic translate 2.2.2.2/12345 to 192.168.42.126/12345
+
+Phase: 4
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 5
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 6
+Type: INSPECT
+Subtype: np-inspect
+Result: ALLOW
+Config:
+class-map inspection_default
+ match default-inspection-traffic
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1
+service-policy global_policy global
+Additional Information:
+
+Phase: 7
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 8
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 9
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 10
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 11
+Type: FLOW-CREATION
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+New flow created with id 644, packet dispatched to next module
+
+Result:
+input-interface: INSIDE
+input-status: up
+input-line-status: up
+output-interface: MGMT
+output-status: up
+output-line-status: up
+Action: allow
+
+ciscoasa# packet-tracer input DMZ tcp 3.3.3.2 12345 1.1.1.2 22
+
+Phase: 1
+Type: ACCESS-LIST
+Subtype:
+Result: ALLOW
+Config:
+Implicit Rule
+Additional Information:
+MAC Access list
+
+Phase: 2
+Type: RECURSIVE-ROUTE-LOOKUP
+Subtype: Recursive Resolve Egress Interface
+Result: ALLOW
+Config:
+Additional Information:
+in   1.1.1.0         255.255.255.0   via 10.10.10.2 (unresolved, timestamp: 37)
+
+Phase: 3
+Type: RECURSIVE-ROUTE-LOOKUP
+Subtype: Recursive Resolve Egress Interface
+Result: ALLOW
+Config:
+Additional Information:
+in   10.10.10.0      255.255.255.0   OUTSIDE
+
+Phase: 4
+Type: ROUTE-LOOKUP
+Subtype: Resolve Egress Interface
+Result: ALLOW
+Config:
+Additional Information:
+found next-hop 10.10.10.2 using egress ifc  OUTSIDE
+
+Phase: 5
+Type: ACCESS-LIST
+Subtype: log
+Result: ALLOW
+Config:
+access-group DMZ_access_in in interface DMZ
+access-list DMZ_access_in extended permit tcp host 3.3.3.2 host 1.1.1.2 eq ssh
+Additional Information:
+
+Phase: 6
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 7
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 8
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 9
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 10
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 11
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 12
+Type: FLOW-CREATION
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+New flow created with id 645, packet dispatched to next module
+
+Result:
+input-interface: DMZ
+input-status: up
+input-line-status: up
+output-interface: OUTSIDE
+output-status: up
+output-line-status: up
+Action: allow
+
+ciscoasa# packet-tracer input MGMT tcp 192.168.107.1 12345 192.168.42.126 1010
+
+Phase: 1
+Type: UN-NAT
+Subtype: static
+Result: ALLOW
+Config:
+nat (MGMT,OUTSIDE) source dynamic any interface destination static interface OBJ-CSR-GI1 service OBJ-TCP-1010 OBJ-TCP-22
+Additional Information:
+NAT divert to egress interface OUTSIDE
+Untranslate 192.168.42.126/1010 to 10.10.10.2/22
+
+Phase: 2
+Type: ACCESS-LIST
+Subtype: log
+Result: ALLOW
+Config:
+access-group MGMT-IN in interface MGMT
+access-list MGMT-IN extended permit tcp host 192.168.107.1 host 10.10.10.2 eq ssh
+access-list MGMT-IN remark PC-TO-MGMT
+Additional Information:
+
+Phase: 3
+Type: NAT
+Subtype:
+Result: ALLOW
+Config:
+nat (MGMT,OUTSIDE) source dynamic any interface destination static interface OBJ-CSR-GI1 service OBJ-TCP-1010 OBJ-TCP-22
+Additional Information:
+Dynamic translate 192.168.107.1/12345 to 10.10.10.1/12345
+
+Phase: 4
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 5
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 6
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 7
+Type: NAT
+Subtype: rpf-check
+Result: ALLOW
+Config:
+nat (MGMT,OUTSIDE) source dynamic any interface destination static interface OBJ-CSR-GI1 service OBJ-TCP-1010 OBJ-TCP-22
+Additional Information:
+
+Phase: 8
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 9
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 10
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 11
+Type: FLOW-CREATION
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+New flow created with id 646, packet dispatched to next module
+
+Result:
+input-interface: MGMT
+input-status: up
+input-line-status: up
+output-interface: OUTSIDE
+output-status: up
+output-line-status: up
+Action: allow
+
+ciscoasa# packet-tracer input MGMT tcp 192.168.107.1 12345 192.168.42.126 1020
+
+Phase: 1
+Type: UN-NAT
+Subtype: static
+Result: ALLOW
+Config:
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1020 OBJ-TCP-22
+Additional Information:
+NAT divert to egress interface DMZ
+Untranslate 192.168.42.126/1020 to 3.3.3.2/22
+
+Phase: 2
+Type: ACCESS-LIST
+Subtype: log
+Result: ALLOW
+Config:
+access-group MGMT-IN in interface MGMT
+access-list MGMT-IN extended permit tcp host 192.168.107.1 host 3.3.3.2 eq ssh
+access-list MGMT-IN remark PC-TO-MGMT
+Additional Information:
+
+Phase: 3
+Type: NAT
+Subtype:
+Result: ALLOW
+Config:
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1020 OBJ-TCP-22
+Additional Information:
+Static translate 192.168.107.1/12345 to 192.168.107.1/12345
+
+Phase: 4
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 5
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 6
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 7
+Type: NAT
+Subtype: rpf-check
+Result: ALLOW
+Config:
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1020 OBJ-TCP-22
+Additional Information:
+
+Phase: 8
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 9
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 10
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 11
+Type: FLOW-CREATION
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+New flow created with id 647, packet dispatched to next module
+
+Result:
+input-interface: MGMT
+input-status: up
+input-line-status: up
+output-interface: DMZ
+output-status: up
+output-line-status: up
+Action: allow
+
+ciscoasa# packet-tracer input MGMT tcp 192.168.107.1 12345 192.168.42.126 1030
+
+Phase: 1
+Type: UN-NAT
+Subtype: static
+Result: ALLOW
+Config:
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1030 OBJ-TCP-443
+Additional Information:
+NAT divert to egress interface DMZ
+Untranslate 192.168.42.126/1030 to 3.3.3.2/443
+
+Phase: 2
+Type: ACCESS-LIST
+Subtype: log
+Result: ALLOW
+Config:
+access-group MGMT-IN in interface MGMT
+access-list MGMT-IN extended permit tcp host 192.168.107.1 host 3.3.3.2 eq https
+Additional Information:
+
+Phase: 3
+Type: NAT
+Subtype:
+Result: ALLOW
+Config:
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1030 OBJ-TCP-443
+Additional Information:
+Static translate 192.168.107.1/12345 to 192.168.107.1/12345
+
+Phase: 4
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 5
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 6
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 7
+Type: NAT
+Subtype: rpf-check
+Result: ALLOW
+Config:
+nat (MGMT,DMZ) source static any any destination static interface OBJ-WORDPRESS service OBJ-TCP-1030 OBJ-TCP-443
+Additional Information:
+
+Phase: 8
+Type: QOS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 9
+Type: NAT
+Subtype: per-session
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 10
+Type: IP-OPTIONS
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+
+Phase: 11
+Type: FLOW-CREATION
+Subtype:
+Result: ALLOW
+Config:
+Additional Information:
+New flow created with id 648, packet dispatched to next module
+
+Result:
+input-interface: MGMT
+input-status: up
+input-line-status: up
+output-interface: DMZ
+output-status: up
+output-line-status: up
+Action: allow
