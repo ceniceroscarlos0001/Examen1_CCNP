@@ -73,3 +73,42 @@ interface GigabitEthernet0/1
  ospf cost 10
  ospf message-digest-key 1 md5 CISCO-O
 ```
+## EIRGP
+```
+router eigrp 1
+router eigrp 1
+ network 10.10.30.0 255.255.255.0
+interface GigabitEthernet0/2
+ authentication mode eigrp 1 md5
+ authentication key eigrp 1 CISCO-EIGRP key-id 1
+```
+## BGP
+```
+router bgp 1
+ address-family ipv4
+  network 10.10.10.0 mask 255.255.255.0
+  neighbor 10.10.10.2 remote-as 2
+  neighbor 10.10.10.2 password CISCO-BGP
+  exit-address-family
+```
+## Redistribución
+```
+router eigrp 1
+router eigrp 1
+ redistribute ospf 1 metric 1544 15 255 255 1500
+ redistribute bgp 1 metric 1544 15 255 255 1500
+ redistribute static metric 1544 15 255 255 1500
+ redistribute connected metric 1544 15 255 255 1500
+router ospf 1
+ redistribute eigrp 1 metric 1 subnets
+ redistribute static metric 1 subnets
+ redistribute connected metric 1 subnets
+ redistribute bgp 1 metric 1 subnets
+router bgp 1
+ address-family ipv4
+  redistribute static metric 20
+  redistribute connected metric 20
+  redistribute eigrp 1 metric 20
+  redistribute ospf 1 metric 20
+  exit-address-family
+```
